@@ -8,11 +8,12 @@
  */
 package phpro;
 
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
 import org.junit.Test;
-
+import cn.sunline.entity.Apple;
 import cn.sunline.enums.ExceptionEnums;
 import cn.sunline.enums.ExceptionEnums.E_MATH_TYPE;
-
 public class TestEnum {
 		
 	@Test
@@ -24,21 +25,51 @@ public class TestEnum {
 			ExceptionEnums.E_MATH_TYPE e2 = ExceptionEnums.E_MATH_TYPE.ADD;
 			System.out.println(e1.equals(e2));
 			System.out.println(e1==e2);
-			
 	}
 	
 	@Test
 	public void testString(){
-		String str1 = "hello";
-		String str2 = "hello";
-		System.out.println(str1.equals(str2));
-		System.out.println(str1==str2);
+		String str1 = "hello"+"Jack";
+		String str2 = "helloJack";
+		String str3 = "hello";
+		str3=str3+"Jack";
 		
-		String str3 = new String("hello");
-		String str4 = new String("hello");
-		System.out.println(str3.equals(str4));
-		System.out.println(str3==str4);
+		String str4 = str3;
+		System.out.println(str4==str1);
 		
-		
+//		System.out.println(str1==str2);
+//		System.out.println(str2==str3);
+//		System.out.println(str1==str3);
+//		System.out.println(str1.hashCode());
+//		System.out.println(str3.hashCode());
 	}
+	
+	@Test
+	public void testApple()
+	{
+		Apple apple1 = new Apple();
+		apple1.setId(101);
+		apple1.setName("apple");
+		Apple apple2 = new Apple();
+		apple2.setId(101);
+		apple2.setName("apple");
+		System.out.println(apple1.hashCode());
+		System.out.println(apple2.hashCode());
+	}
+	
+	 @Test
+	    public void testTheSameReference1(){
+	        String str1="abc";
+	        String str2="abc";
+	        String str3="ab"+"c";
+	        String str4=new String(str2);
+	        
+	        //str1和str2引用自常量池里的同一个string对象
+			assertSame(str1,str2);
+	        //str3通过编译优化，与str1引用自同一个对象
+	        assertSame(str1,str3);
+	        assertSame(str2,str3);
+	        //str4因为是在堆中重新分配的另一个对象，所以它的引用与str1不同
+	        assertNotSame(str1,str4);
+	    }
 }
